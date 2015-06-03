@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "daniele margutti" => "me@danielemargutti.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/CircularScrollView.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/malcommac/CircularScrollView.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/danielemargutti'
 
   s.platform     = :ios, '8.0'

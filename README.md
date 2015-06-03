@@ -27,6 +27,8 @@ daniele margutti, me@danielemargutti.com
 ## About
 When creating paging functionality for your apps, there may be times that an infinite page loop would be desired. For example, if you have a small gallery of photos you are displaying, you may want to swipe through the set and have it start back at the beginning once you reach the end. The user would be able to continue swiping as much as they wanted in one direction to continue to view the content. CircularScrollView allows you to create an endless paginated scrollview; it uses UICollectionView as base class and provide some interesting delegate/datasource methods.
 
+[![Demo Video](http://img.youtube.com/vi/dJ4Z3wMlKm0/0.jpg)](http://www.youtube.com/watch?v=dJ4Z3wMlKm0)
+
 ## License
 
 CircularScrollView is available under the MIT license. See the LICENSE file for more info.
