@@ -1,0 +1,17 @@
+PODS:
+  - CircularScrollView (0.1.0)
+  - FBSnapshotTestCase (1.8.1)
+
+DEPENDENCIES:
+  - CircularScrollView (from `../`)
+  - FBSnapshotTestCase
+
+EXTERNAL SOURCES:
+  CircularScrollView:
+    :path: ../
+
+SPEC CHECKSUMS:
+  CircularScrollView: e272628dd186264e8c3668359dd629daa273089d
+  FBSnapshotTestCase: 3dc3899168747a0319c5278f5b3445c13a6532dd
+
+COCOAPODS: 0.37.2

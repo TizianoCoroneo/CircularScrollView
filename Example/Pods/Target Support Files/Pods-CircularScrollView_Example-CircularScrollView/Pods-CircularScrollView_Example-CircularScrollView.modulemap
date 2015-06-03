@@ -1,0 +1,6 @@
+framework module CircularScrollView {
+  umbrella header "Pods-CircularScrollView_Example-CircularScrollView-umbrella.h"
+
+  export *
+  module * { export * }
+}
