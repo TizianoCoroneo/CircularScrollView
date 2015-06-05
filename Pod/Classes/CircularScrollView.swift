@@ -175,7 +175,7 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 	:returns: visible pages
 	*/
 	public func visiblePages() -> [Int] {
-		if numberOfPages == 0 {
+		if numberOfPages == nil {
 			return []
 		} else if numberOfPages == 1 {
 			return [0]
@@ -242,6 +242,9 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 	:returns: true if page is valid, false otherwise
 	*/
 	public func moveToPage(index: Int!, animated: Bool!)->Bool! {
+		if numberOfPages == nil {
+			return false
+		}
 		var finalPageIdx = (index == nil ? 0 : index)
 		if finalPageIdx < 0 || finalPageIdx >= numberOfPages {
 			return false
