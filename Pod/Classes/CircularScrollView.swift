@@ -25,7 +25,8 @@
 
 import UIKit
 
-//MARK: DataSource Protocol
+//MARK: CircularScrollViewDataSource Protocol
+
 public protocol CircularScrollViewDataSource: class {
 	/**
 	Return the number of pages to show into the scroll view
@@ -84,6 +85,7 @@ public protocol CircularScrollViewDataSource: class {
 }
 
 //MARK: CircularScrollView
+
 public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
 	//MARK: Public Properties
 	/// Delegate of the Circular ScrollView

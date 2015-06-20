@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "CircularScrollView"
-  s.version          = "0.1.1"
+  s.version          = "0.1.2"
   s.summary          = "Endless circular scroll view control for iOS"
   s.description      = <<-DESC
                        This control allows you to create a circular endless control to show UIViewController subclass. It can works both in paginated and non paginated mode.
