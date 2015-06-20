@@ -34,7 +34,7 @@ public protocol CircularScrollViewDataSource: class {
 	
 	:returns: number of pages to show
 	*/
-	func numberOfPagesInCircularScrollView(scroll scroll: CircularScrollView!)->Int!
+	func numberOfPagesInCircularScrollView(#scroll: CircularScrollView!)->Int!
 	
 	/**
 	The view controller to use into given page index
@@ -44,7 +44,7 @@ public protocol CircularScrollViewDataSource: class {
 	
 	:returns: view controller to show
 	*/
-	func circularScrollView(scroll scroll: CircularScrollView!, viewControllerAtIndex index: Int!)->UIViewController!
+	func circularScrollView(#scroll: CircularScrollView!, viewControllerAtIndex index: Int!)->UIViewController!
 }
 
 //MARK: Delegate Protocol
@@ -56,7 +56,7 @@ public protocol CircularScrollViewDataSource: class {
 	:param: forward true if scroll is forward, false if it's backward (backward/forward is calculated using the page indexes)
 	:param: index   index of the current page (the predominant page rect)
 	*/
-	optional func circularScrollView(scroll scroll: CircularScrollView?, willMoveForward forward: Bool, fromPage index: Int)
+	optional func circularScrollView(#scroll: CircularScrollView?, willMoveForward forward: Bool, fromPage index: Int)
 	
 	/**
 	This method is called when a scroll task is beginning and report the current page index
@@ -64,7 +64,7 @@ public protocol CircularScrollViewDataSource: class {
 	:param: scroll    target circular scroll view instance
 	:param: fromIndex current predominant page index
 	*/
-	optional func circularScrollView(scroll scroll: CircularScrollView?, willScrollFromPage fromIndex : NSInteger)
+	optional func circularScrollView(#scroll: CircularScrollView?, willScrollFromPage fromIndex : NSInteger)
 	
 	/**
 	This method is called at the end of a scrolling task and report the new current page
@@ -72,7 +72,7 @@ public protocol CircularScrollViewDataSource: class {
 	:param: scroll  target circular scroll view instance
 	:param: toIndex current end page index
 	*/
-	optional func circularScrollView(scroll scroll: CircularScrollView?, didScrollToPage toIndex: NSInteger)
+	optional func circularScrollView(#scroll: CircularScrollView?, didScrollToPage toIndex: NSInteger)
 	
 	/**
 	This method is called continuously during a scroll and report the offset of the scroll view
@@ -80,7 +80,7 @@ public protocol CircularScrollViewDataSource: class {
 	:param: scroll target circular scroll view instance
 	:param: offset offset of the scrollview (note: when number of pages > 1 scroll view has 2 more extra pages at start/end, with the relative offset)
 	*/
-	optional func circularScrollView(scroll scroll: CircularScrollView?, didScroll offset: CGPoint)
+	optional func circularScrollView(#scroll: CircularScrollView?, didScroll offset: CGPoint)
 }
 
 //MARK: CircularScrollView
