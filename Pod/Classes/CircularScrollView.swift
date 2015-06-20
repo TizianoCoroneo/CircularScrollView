@@ -34,7 +34,7 @@ public protocol CircularScrollViewDataSource: class {
 	
 	:returns: number of pages to show
 	*/
-	func numberOfPagesInCircularScrollView(#scroll: CircularScrollView!)->Int!
+	func numberOfPagesInCircularScrollView(scroll scroll: CircularScrollView!)->Int!
 	
 	/**
 	The view controller to use into given page index
@@ -44,7 +44,7 @@ public protocol CircularScrollViewDataSource: class {
 	
 	:returns: view controller to show
 	*/
-	func circularScrollView(#scroll: CircularScrollView!, viewControllerAtIndex index: Int!)->UIViewController!
+	func circularScrollView(scroll scroll: CircularScrollView!, viewControllerAtIndex index: Int!)->UIViewController!
 }
 
 //MARK: Delegate Protocol
@@ -56,7 +56,7 @@ public protocol CircularScrollViewDataSource: class {
 	:param: forward true if scroll is forward, false if it's backward (backward/forward is calculated using the page indexes)
 	:param: index   index of the current page (the predominant page rect)
 	*/
-	optional func circularScrollView(#scroll: CircularScrollView?, willMoveForward forward: Bool, fromPage index: Int)
+	optional func circularScrollView(scroll scroll: CircularScrollView?, willMoveForward forward: Bool, fromPage index: Int)
 	
 	/**
 	This method is called when a scroll task is beginning and report the current page index
@@ -64,7 +64,7 @@ public protocol CircularScrollViewDataSource: class {
 	:param: scroll    target circular scroll view instance
 	:param: fromIndex current predominant page index
 	*/
-	optional func circularScrollView(#scroll: CircularScrollView?, willScrollFromPage fromIndex : NSInteger)
+	optional func circularScrollView(scroll scroll: CircularScrollView?, willScrollFromPage fromIndex : NSInteger)
 	
 	/**
 	This method is called at the end of a scrolling task and report the new current page
@@ -72,7 +72,7 @@ public protocol CircularScrollViewDataSource: class {
 	:param: scroll  target circular scroll view instance
 	:param: toIndex current end page index
 	*/
-	optional func circularScrollView(#scroll: CircularScrollView?, didScrollToPage toIndex: NSInteger)
+	optional func circularScrollView(scroll scroll: CircularScrollView?, didScrollToPage toIndex: NSInteger)
 	
 	/**
 	This method is called continuously during a scroll and report the offset of the scroll view
@@ -80,7 +80,7 @@ public protocol CircularScrollViewDataSource: class {
 	:param: scroll target circular scroll view instance
 	:param: offset offset of the scrollview (note: when number of pages > 1 scroll view has 2 more extra pages at start/end, with the relative offset)
 	*/
-	optional func circularScrollView(#scroll: CircularScrollView?, didScroll offset: CGPoint)
+	optional func circularScrollView(scroll scroll: CircularScrollView?, didScroll offset: CGPoint)
 }
 
 //MARK: CircularScrollView
@@ -126,7 +126,8 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 		super.init(frame: frame)
 		
 		isDecelerating = false
-		collectionView.autoresizingMask = (UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth)
+		
+		collectionView.autoresizingMask = UIViewAutoresizing(rawValue: UIViewAutoresizing.FlexibleWidth.rawValue | UIViewAutoresizing.FlexibleHeight.rawValue)
 		collectionView.showsVerticalScrollIndicator = false
 		collectionView.showsHorizontalScrollIndicator = false
 		collectionView.registerClass(CircularScrollViewCell.self, forCellWithReuseIdentifier: CircularScrollViewCell.identifier)
@@ -157,7 +158,7 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 		if dataSource == nil {
 			return
 		}
-		var currentPageIdx = self.currentPage()
+		let currentPageIdx = self.currentPage()
 		numberOfPages = self.dataSource!.numberOfPagesInCircularScrollView(scroll: self)
 		collectionView.reloadData()
 		if moveToPage != nil {
@@ -181,7 +182,7 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 			return [0]
 		}
 		var pages: [Int] = []
-		var visibleRect = self.visibleRect()
+		let visibleRect = self.visibleRect()
 		var maxArea : CGFloat?
 		var idxMaxArea : Int?
 		for (var k=0; k < (numberOfPages+2); k++) {
@@ -192,14 +193,14 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 					pages.append(self.adjustedIndexForIndex(k))
 					let area = intersection.width * intersection.height
 					if area > maxArea {
-						idxMaxArea = count(pages)-1
+						idxMaxArea = pages.count-1
 						maxArea = area
 					}
 				}
 			}
 		}
 		
-		if count(pages) > 1 && idxMaxArea != nil {
+		if pages.count > 1 && idxMaxArea != nil {
 			let value = pages[idxMaxArea!]
 			pages.removeAtIndex(idxMaxArea!)
 			pages.insert(value, atIndex: 0)
@@ -215,7 +216,7 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 	*/
 	public func currentPage() -> Int! {
 		let pages = self.visiblePages()
-		if count(pages) > 0 {
+		if pages.count > 0 {
 			return pages[0]
 		} else {
 			return nil
@@ -229,7 +230,7 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 	:returns: visible rect inside the circular scrollview
 	*/
 	public func visibleRect() -> CGRect {
-		var visibleRect = CGRectMake(collectionView.contentOffset.x, collectionView.contentOffset.y, CGRectGetWidth(collectionView.frame), CGRectGetHeight(collectionView.frame))
+		let visibleRect = CGRectMake(collectionView.contentOffset.x, collectionView.contentOffset.y, CGRectGetWidth(collectionView.frame), CGRectGetHeight(collectionView.frame))
 		return visibleRect
 	}
 
@@ -270,7 +271,7 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 				scrollView.contentOffset = CGPointMake(0, pageSize)
 			}
 		} else if offset <= 0 {
-			var lastItemOffset = pageSize * CGFloat(numberOfPages)
+			let lastItemOffset = pageSize * CGFloat(numberOfPages)
 			if horizontalScroll == true {
 				scrollView.contentOffset = CGPointMake(lastItemOffset, 0)
 			} else {
@@ -282,15 +283,15 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 		
 		if isDecelerating == false {
 			var visiblePages = self.visiblePages()
-			if count(visiblePages) == 2 {
-				var isMovingForward = ( visiblePages[1] > visiblePages[0])
+			if visiblePages.count == 2 {
+				let isMovingForward = ( visiblePages[1] > visiblePages[0])
 				self.delegate?.circularScrollView?(scroll: self, willMoveForward: isMovingForward, fromPage: visiblePages[0])
 			}
 		}
 	}
 	
 	public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-		var currentPage = self.currentPage()
+		let currentPage = self.currentPage()
 		isDecelerating = false
 		self.delegate?.circularScrollView?(scroll: self, willScrollFromPage: NSInteger(currentPage))
 	}
@@ -305,7 +306,6 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 	}
 	
 	public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		println("pagine: \(numberOfPages)")
 		switch numberOfPages {
 		case 0...1:
 			return numberOfPages
@@ -322,7 +322,7 @@ public class CircularScrollView: UIView, UIScrollViewDelegate, UICollectionViewD
 	}
 	
 	public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-		var cell = collectionView.dequeueReusableCellWithReuseIdentifier(CircularScrollViewCell.identifier, forIndexPath: indexPath) as! CircularScrollViewCell
+		let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CircularScrollViewCell.identifier, forIndexPath: indexPath) as! CircularScrollViewCell
 		cell.index = self.adjustedIndexForIndex(indexPath.item)
 		return cell
 	}
@@ -372,7 +372,7 @@ class CircularScrollViewCell: UICollectionViewCell {
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		self.autoresizingMask = UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleWidth
+		self.autoresizingMask = UIViewAutoresizing(rawValue: UIViewAutoresizing.FlexibleWidth.rawValue | UIViewAutoresizing.FlexibleHeight.rawValue)
 	}
 	
 	required init(coder aDecoder: NSCoder) {
